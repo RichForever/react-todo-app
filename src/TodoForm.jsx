@@ -83,7 +83,10 @@ function TodoForm() {
         <Center height="100vh" padding={4}>
             <VStack gap={6} padding={6} maxWidth="lg" bg="gray.100" borderRadius="md" boxShadow="2xl">
                 <Box bg="white" p={6} borderRadius="md">
-                    <Flex gap={2} width="100%">
+                    <Flex gap={2} width="100%" direction={{
+                        base: "column",
+                        lg: 'row'
+                        }}>
                         <FormControl >
                             <InputGroup>
                                 <Input value={inputValue} onKeyDown={handleKeyDown} onChange={(e) => setInputValue(e.currentTarget.value)} ref={inputRef} isInvalid={false} />
@@ -104,9 +107,15 @@ function TodoForm() {
                         <Button px={6} colorScheme="green" onClick={handleAddOrUpdate} isDisabled={inputValue.length <= 0 || inputValue.length >= 40}>{isEditing ? 'Aktualizuj' : 'Dodaj'}</Button>
                     </Flex>
                     <Divider borderColor="gray.200" my={6} />
-                    <Flex width="100%" justifyContent={todos.length > 0 ? 'flex-start' : 'center' } alignItems={todos.length > 0 ? 'flex-start' : 'center'}>
+                    <Flex width="100%" minH={{
+                        base: "200px",
+                        lg: "300px"
+                    }} justifyContent={todos.length > 0 ? 'flex-start' : 'center' } alignItems={todos.length > 0 ? 'flex-start' : 'center'}>
                         {todos.length > 0 ? (
-                                <VStack width="100%" position="relative" as={Reorder.Group} axis="y" onReorder={setTodos} values={todos}>
+                                <VStack width="100%" overflowY="auto" maxH={{
+                                    base: "200px",
+                                    lg: "300px"
+                                }} position="relative" as={Reorder.Group} axis="y" onReorder={setTodos} values={todos}>
                                     {
                                         todos.map((todo) => (
                                             <Flex justifyContent="space-between" alignItems="center" key={todo.id} padding={4} bg="#f9f9f9" w="100%" borderRadius="md" as={Reorder.Item} value={todo} variants={dragVariants} initial="initial" whileDrag="dragging" dragTransition={{
