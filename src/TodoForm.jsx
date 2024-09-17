@@ -80,7 +80,7 @@ function TodoForm() {
     };
 
     return (
-        <Center height="100vh">
+        <Center height="100vh" padding={4}>
             <VStack gap={6} padding={6} maxWidth="lg" bg="gray.100" borderRadius="md" boxShadow="2xl">
                 <Box bg="white" p={6} borderRadius="md">
                     <Flex gap={2} width="100%">
