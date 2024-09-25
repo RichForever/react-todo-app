@@ -26,6 +26,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
     };
 
     const handleEdit = (id: number) => {
+        if(editedText.length === 0) return;
         setTodos((prevTodos: ITodoItem[]) =>
             prevTodos.map((todo: ITodoItem) =>
                 todo.id === id ? { ...todo, text: editedText } : todo
@@ -67,6 +68,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
                         onClick={() => handleEdit(id)}
                         icon={<CheckIcon />}
                         aria-label="Save todo"
+                        isDisabled={editedText.length === 0}
                     />
                 ) : (
                     <IconButton
