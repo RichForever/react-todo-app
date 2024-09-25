@@ -37,7 +37,7 @@ const TodoForm = ({ setTodos, todos }) => {
     }, [value])
 
     return (
-        <Box background="white" borderColor="gray.100" borderWidth="1px" p={4} borderRadius="lg" width="100%">
+        <Box backgroundColor="white" borderColor="gray.100" borderWidth="1px" p={4} borderRadius="lg" width="100%">
             <form onSubmit={handleSubmit}>
                 <VStack gap={4}>
                     <FormControl>

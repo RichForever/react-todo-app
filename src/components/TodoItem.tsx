@@ -41,7 +41,7 @@ const TodoItem = ({ todo, todos, setTodos }) => {
     };
 
     return (
-        <Flex as={Reorder.Item} value={todo} dragTransition={{ bounceStiffness: 600 }} variants={variants} whileDrag="dragging" initial="notDragging" gap={2} alignItems="center" justifyContent="space-between" width="100%" background={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)} borderRadius="lg">
+        <Flex as={Reorder.Item} value={todo} dragTransition={{ bounceStiffness: 600 }} variants={variants} whileDrag="dragging" initial="notDragging" gap={2} alignItems="center" justifyContent="space-between" width="100%" backgroundColor={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)} borderRadius="lg">
             {isEditing ? (
                 <Input
                     value={editedText}
