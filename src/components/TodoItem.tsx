@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import { Flex, IconButton, Input } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, CheckIcon } from "@chakra-ui/icons";
 import { Reorder } from "framer-motion";
-const TodoItem = ({ todo, todos, setTodos }) => {
-    const { id, text, completed } = todo;
+import { ITodoItem, ITodoItemProps } from "../types";
+
+const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
+    const { id, text, completed }: ITodoItem = todo;
 
     const variants = {
         notDragging: {
@@ -16,25 +18,25 @@ const TodoItem = ({ todo, todos, setTodos }) => {
         },
     };
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedText, setEditedText] = useState(text);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [editedText, setEditedText] = useState<string>(text);
 
-    const handleDelete = (id) => {
-        setTodos((prevTodos) => prevTodos.filter((e) => e.id !== id));
+    const handleDelete = (id: number) => {
+        setTodos((prevTodos: ITodoItem[]) => prevTodos.filter((e) => e.id !== id));
     };
 
-    const handleEdit = (id) => {
-        setTodos((prevTodos) =>
-            prevTodos.map((todo) =>
+    const handleEdit = (id: number) => {
+        setTodos((prevTodos: ITodoItem[]) =>
+            prevTodos.map((todo: ITodoItem) =>
                 todo.id === id ? { ...todo, text: editedText } : todo
             )
         );
         setIsEditing(false);
     };
 
-    const handleCompleted = (id) => {
-        setTodos((prevTodos) =>
-            prevTodos.map((todo) =>
+    const handleCompleted = (id: number) => {
+        setTodos((prevTodos: ITodoItem[]) =>
+            prevTodos.map((todo: ITodoItem) =>
                 todo.id === id ? { ...todo, completed: !todo.completed } : todo
             )
         );
@@ -45,9 +47,9 @@ const TodoItem = ({ todo, todos, setTodos }) => {
             {isEditing ? (
                 <Input
                     value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditedText(e.target.value)}
                     onBlur={() => handleEdit(id)} // Save when input loses focus
-                    onKeyDown={(e) => {
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.key === 'Enter') {
                             handleEdit(id); // Save when pressing Enter
                         }

@@ -11,12 +11,13 @@ import {
     VStack
 } from "@chakra-ui/react";
 import {SmallCloseIcon} from "@chakra-ui/icons";
+import {ITodoFormProps} from "../types";
 
-const TodoForm = ({ setTodos, todos }) => {
-    const [value, setValue] = useState("")
-    const [characters, setCharacters] = useState(0)
+const TodoForm: React.FC<ITodoFormProps> = ({ todos, setTodos }) => {
+    const [value, setValue] = useState<string>("")
+    const [characters, setCharacters] = useState<number>(0)
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
 
@@ -43,7 +44,7 @@ const TodoForm = ({ setTodos, todos }) => {
                     <FormControl>
                         <FormLabel>Add todo</FormLabel>
                         <InputGroup>
-                            <Input type='text' value={value} onChange={(e) => setValue(e.target.value)} />
+                            <Input type='text' value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)} />
                             <InputRightElement>
                                 <IconButton isDisabled={!value} size="xs" aria-label="Clear" icon={<SmallCloseIcon />} onClick={() => setValue('')} />
                             </InputRightElement>

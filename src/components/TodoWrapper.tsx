@@ -2,16 +2,11 @@ import React, {useState} from 'react';
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import {Center, VStack} from "@chakra-ui/react";
-
-interface todoItem {
-    id: number,
-    text: string,
-    completed: boolean,
-}
+import {ITodoItem} from "../types";
 
 const TodoWrapper = () => {
 
-    const [todos, setTodos] = useState<todoItem[]>([]);
+    const [todos, setTodos] = useState<ITodoItem[]>([]);
 
     return (
         <Center p={8} backgroundColor="white" height="100vh" borderColor="gray.100" borderWidth="1px">
