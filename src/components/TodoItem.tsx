@@ -51,7 +51,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
               backgroundColor={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)}
               borderRadius="lg">
             <Box>
-                <DragHandleIcon cursor="pointer" className="reorder-handle" onPointerDown={(e) => controls.start(e)} color="gray.400" />
+                <DragHandleIcon cursor="move" className="reorder-handle" onPointerDown={(e) => controls.start(e)} color="gray.400" />
             </Box>
             {isEditing ? (
                 <Input
