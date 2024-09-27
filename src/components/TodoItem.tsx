@@ -1,7 +1,7 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
-import { Flex, IconButton, Input } from "@chakra-ui/react";
-import { DeleteIcon, EditIcon, CheckIcon } from "@chakra-ui/icons";
-import { Reorder } from "framer-motion";
+import React, {useState} from 'react';
+import { Box, Flex, IconButton, Input } from "@chakra-ui/react";
+import {DeleteIcon, EditIcon, CheckIcon, DragHandleIcon} from "@chakra-ui/icons";
+import { Reorder, useDragControls } from "framer-motion";
 import { ITodoItem, ITodoItemProps } from "../types";
 
 const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
@@ -17,6 +17,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
             opacity: "50%"
         },
     };
+    const controls = useDragControls();
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedText, setEditedText] = useState<string>(text);
@@ -44,7 +45,14 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
     };
 
     return (
-        <Flex as={Reorder.Item} value={todo} dragTransition={{ bounceStiffness: 600 }} variants={variants} whileDrag="dragging" initial="notDragging" gap={2} alignItems="center" justifyContent="space-between" width="100%" backgroundColor={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)} borderRadius="lg">
+        <Flex as={Reorder.Item} value={todo} dragListener={false} dragControls={controls}
+              dragTransition={{bounceStiffness: 600}} variants={variants} whileDrag="dragging" initial="notDragging"
+              gap={2} alignItems="center" justifyContent="space-between" width="100%"
+              backgroundColor={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)}
+              borderRadius="lg">
+            <Box>
+                <DragHandleIcon cursor="pointer" className="reorder-handle" onPointerDown={(e) => controls.start(e)} color="gray.400" />
+            </Box>
             {isEditing ? (
                 <Input
                     value={editedText}
@@ -66,7 +74,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
                         size="xs"
                         colorScheme="green"
                         onClick={() => handleEdit(id)}
-                        icon={<CheckIcon />}
+                        icon={<CheckIcon/>}
                         aria-label="Save todo"
                         isDisabled={editedText.length === 0}
                     />
@@ -75,7 +83,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
                         size="xs"
                         colorScheme="blue"
                         onClick={() => setIsEditing(!isEditing)}
-                        icon={<EditIcon />}
+                        icon={<EditIcon/>}
                         aria-label="Edit todo"
                     />
                 )}
@@ -83,7 +91,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
                     size="xs"
                     colorScheme="red"
                     onClick={() => handleDelete(id)}
-                    icon={<DeleteIcon />}
+                    icon={<DeleteIcon/>}
                     aria-label="Delete todo"
                 />
             </Flex>
