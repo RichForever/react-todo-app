@@ -4,7 +4,7 @@ import {DeleteIcon, EditIcon, CheckIcon, DragHandleIcon} from "@chakra-ui/icons"
 import { Reorder, useDragControls } from "framer-motion";
 import { ITodoItem, ITodoItemProps } from "../types";
 
-const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
+const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos, isDraggable }) => {
     const { id, text, completed }: ITodoItem = todo;
 
     const variants = {
@@ -21,6 +21,9 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedText, setEditedText] = useState<string>(text);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const cursorStyle = isDraggable ? (isDragging ? 'grabbing' : 'grab') : 'not-allowed';
 
     const handleDelete = (id: number) => {
         setTodos((prevTodos: ITodoItem[]) => prevTodos.filter((e) => e.id !== id));
@@ -45,13 +48,31 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
     };
 
     return (
-        <Flex as={Reorder.Item} value={todo} dragListener={false} dragControls={controls}
-              dragTransition={{bounceStiffness: 600}} variants={variants} whileDrag="dragging" initial="notDragging"
-              gap={2} alignItems="center" justifyContent="space-between" width="100%"
-              backgroundColor={completed ? 'gray.400' : 'gray.100'} p={4} onDoubleClick={() => handleCompleted(id)}
-              borderRadius="lg">
-            <Box>
-                <DragHandleIcon cursor="move" className="reorder-handle" onPointerDown={(e) => controls.start(e)} color="gray.400" />
+        <Flex
+            as={Reorder.Item}
+            dragListener={false}
+            dragControls={controls}
+            alignItems="center"
+            justifyContent="space-between"
+            gap={2}
+            key={todo.id}
+            value={todo}
+            variants={variants}
+            initial="initial"
+            whileDrag="dragging"
+            position="relative"
+            style={{ touchAction: "none" }}
+            onDragEnd={() => setIsDragging(false)}
+            onDragStart={() => setIsDragging(true)}
+            dragTransition={{bounceStiffness: 600}}
+            width="100%"
+            backgroundColor={completed ? 'gray.400' : 'gray.100'}
+            p={4}
+            onDoubleClick={() => handleCompleted(id)}
+            borderRadius="lg"
+        >
+            <Box className="reorder-handle" onPointerDown={(e) => isDraggable && controls.start(e)} style={{ cursor: cursorStyle }}>
+                <DragHandleIcon color="gray.400" />
             </Box>
             {isEditing ? (
                 <Input
@@ -66,7 +87,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({ todo, setTodos }) => {
                     autoFocus
                 />
             ) : (
-                <span>{text}</span>
+                <Box w="100%">{text}</Box>
             )}
             <Flex gap={2}>
                 {isEditing ? (

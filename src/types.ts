@@ -16,4 +16,5 @@ export interface ITodoListProps {
 export interface ITodoItemProps {
     todo: ITodoItem;
     setTodos: React.Dispatch<React.SetStateAction<ITodoItem[]>>;
+    isDraggable: boolean;
 }

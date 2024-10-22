@@ -44,14 +44,16 @@ const TodoForm: React.FC<ITodoFormProps> = ({ todos, setTodos }) => {
                     <FormControl>
                         <FormLabel>Add todo</FormLabel>
                         <InputGroup>
-                            <Input type='text' value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)} />
-                            <InputRightElement>
-                                <IconButton isDisabled={!value} size="xs" aria-label="Clear" icon={<SmallCloseIcon />} onClick={() => setValue('')} />
-                            </InputRightElement>
+                            <Input value={value} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)} />
+                            {value && (
+                                <InputRightElement>
+                                    <IconButton size="xs" aria-label="Clear" icon={<SmallCloseIcon />} onClick={() => setValue('')} />
+                                </InputRightElement>
+                            )}
                         </InputGroup>
                         <FormHelperText>Characters {characters}/30</FormHelperText>
                     </FormControl>
-                    <Button width="100%" display="inline-flex" colorScheme="blue" type="submit" isDisabled={characters <= 0 || characters >= 30}>Add</Button>
+                    <Button width="100%" display="inline-flex" colorScheme="teal" type="submit" isDisabled={characters <= 0 || characters > 30}>Add</Button>
                 </VStack>
             </form>
         </Box>
